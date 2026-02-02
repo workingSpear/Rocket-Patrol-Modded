@@ -120,7 +120,7 @@ class Play extends Phaser.Scene {
         // changes particle color
         emitter.tintFill = true; // makes it so the tint isnt multiplicative but instead just overrides it
         emitter.setParticleTint(0xffffff); // override with white
-        this.time.delayedCall(500, () => {
+        this.time.delayedCall(150, () => {
             ship.reset();
             ship.alpha = 1;
             emitter.stop();
