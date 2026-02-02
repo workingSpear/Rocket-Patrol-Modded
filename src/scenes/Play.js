@@ -108,7 +108,7 @@ class Play extends Phaser.Scene {
         }
         if (this.checkCollision(this.p1Rocket, this.ship04)) {
             this.p1Rocket.reset();
-            this.modifyTimer(onHitTimeIncrease * 10);
+            this.modifyTimer(onHitTimeIncrease * 20);
             this.shipExplode(this.ship04);
         }
     }

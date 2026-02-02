@@ -1,8 +1,19 @@
 // Kait Srivastav
-//your modification's title (e.g. Rocket Patrol Reloaded IV: The Rocketing)
-//the approximate time it took to complete the project (in hours)
-//the mods you chose from the list below, their point values, and if necessary, an explanation of their implementation
-//citations for any sources you used in your code (you do not need to cite Nathan's code or Phaser documentation)
+// Rocket Patrol 2077: Faster Than Ever
+// 2 hours
+// MODS IMPLEMENTED: 
+// - Implement a new timing/scoring mechanism that adds time to the clock for successful hits and subtracts time for misses (5)
+// - Implement mouse control for player movement and left mouse click to fire (5)
+// - Use Phaser's particle emitter to create a particle explosion when the rocket hits the spaceship (5) 
+// - Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (5)
+// extra notes
+// values for time/scoring systems can be found below
+// the extra fast ship at the top gives 100 points, over 3x the highest big ship
+// it also rewards 10 extra seconds if you are able to hit it
+// also this project was kind of hobbled together messily and so I don't really end up
+// following the principles of single-responsiblity or encapsulation due to already existing codebase
+// I tried to inject any dependencies into my classes and not have them grab any refrences from their parents
+// to keep everything loosely coupled
 
 let config = {
     type: Phaser.AUTO,
