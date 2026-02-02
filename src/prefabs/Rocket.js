@@ -1,6 +1,6 @@
 // Rocket prefab
 class Rocket extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, texture, frame, input, timer) {
+  constructor(scene, x, y, texture, frame, input, timer, time) {
     super(scene, x, y, texture, frame)
 
     scene.add.existing(this); // adds to existing, displayList, updateList
@@ -9,11 +9,11 @@ class Rocket extends Phaser.GameObjects.Sprite {
     this.sfxShot = scene.sound.add('sfx-shot');
     this.sceneInput = input;
     this.gameTimer = timer;
+    this.time = time;
   }
 
   update(delta) {
     let speedThisFrame = this.moveSpeed * delta;
-
     // left/right movement
     if(!this.isFiring && this.sceneInput.activePointer.x >= borderUISize + this.width && this.sceneInput.activePointer.x < game.config.width - (this.width + borderUISize)) {
       this.x = this.sceneInput.activePointer.x;
@@ -32,9 +32,12 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
       // reset on miss
       if(this.y <= borderUISize * 3 + borderPadding) {
-        this.reset();
+        // we missed, send signal
+        missed = true;
+        this.reset(false);
       }
   }
+
 
   // reset rocket to "ground"
   reset() {

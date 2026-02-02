@@ -55,15 +55,19 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;},
         })
-
         // creates the rocket
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0, this.input, this.gameTimer).setOrigin(0.5, 0);
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0, this.input, this.gameTimer, this.time).setOrigin(0.5, 0);
         //disp time left
         this.timeLeftText = this.add.text(game.config.width - (borderUISize + borderPadding), borderUISize + borderPadding * 2, "Time Left: " + this.gameTimer.getRemainingSeconds(), scoreConfig).setOrigin(1,0);
-
     }
 
     update(time, delta) {
+        // if rocket missed, update time left here
+        if(missed) {
+            missed = false;
+            this.modifyTimer(-onMissTimeReduction);
+        }
+
         // update timer
         this.timeLeftText.setText("Score Left: " + Phaser.Math.RoundTo(this.gameTimer.getRemainingSeconds(), 0));
         // check key input for restart
@@ -87,16 +91,31 @@ class Play extends Phaser.Scene {
         // check collisions
         if (this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
+            this.modifyTimer(onHitTimeIncrease);
             this.shipExplode(this.ship03);
         }
         if (this.checkCollision(this.p1Rocket, this.ship02)) {
             this.p1Rocket.reset();
+            this.modifyTimer(onHitTimeIncrease);
             this.shipExplode(this.ship02);
         }
         if (this.checkCollision(this.p1Rocket, this.ship01)) {
             this.p1Rocket.reset();
+            this.modifyTimer(onHitTimeIncrease);
             this.shipExplode(this.ship01);
         }
+    }
+    
+    // modify time remaining
+    modifyTimer(delta) {
+        let newDelay = this.gameTimer.getRemaining() + delta;
+        let oldCallback = this.gameTimer.callback;
+        this.gameTimer.remove();
+        this.gameTimer = this.time.addEvent({
+            delay: newDelay,
+            callback: oldCallback,
+        })
+        console.log(this.gameTimer.getRemaining());
     }
 
     checkCollision(rocket, ship) {
