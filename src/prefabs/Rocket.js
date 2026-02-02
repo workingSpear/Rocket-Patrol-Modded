@@ -1,6 +1,6 @@
 // Rocket prefab
 class Rocket extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, texture, frame, input) {
+  constructor(scene, x, y, texture, frame, input, timer) {
     super(scene, x, y, texture, frame)
 
     scene.add.existing(this); // adds to existing, displayList, updateList
@@ -8,6 +8,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
     this.moveSpeed = 0.4;       // rocket's speed in pixels/frame
     this.sfxShot = scene.sound.add('sfx-shot');
     this.sceneInput = input;
+    this.gameTimer = timer;
   }
 
   update(delta) {

@@ -14,9 +14,6 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        
-        // creates the rocket
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0, this.input).setOrigin(0.5, 0);
 
         //creates spaceships (x3)
           this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
@@ -59,8 +56,11 @@ class Play extends Phaser.Scene {
             this.gameOver = true;},
         })
 
+        // creates the rocket
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0, this.input, this.gameTimer).setOrigin(0.5, 0);
         //disp time left
         this.timeLeftText = this.add.text(game.config.width - (borderUISize + borderPadding), borderUISize + borderPadding * 2, "Time Left: " + this.gameTimer.getRemainingSeconds(), scoreConfig).setOrigin(1,0);
+
     }
 
     update(time, delta) {
