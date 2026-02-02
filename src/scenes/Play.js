@@ -114,10 +114,12 @@ class Play extends Phaser.Scene {
         ship.alpha = 0;
         // create explosion sprite at ship death pos
         const emitter = this.add.particles(ship.x, ship.y, 'greenPixel', {
-            speed: 200,
+            speed: 400,
             scale: {start: 0.8, end: 0},
-            blendMode: "ADD"
         })
+        // changes particle color
+        emitter.tintFill = true; // makes it so the tint isnt multiplicative but instead just overrides it
+        emitter.setParticleTint(0xffffff); // override with white
         this.time.delayedCall(500, () => {
             ship.reset();
             ship.alpha = 1;
