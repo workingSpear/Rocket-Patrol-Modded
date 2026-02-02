@@ -51,15 +51,21 @@ class Play extends Phaser.Scene {
         
         // 60 second clock for play
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+        this.gameTimer = this.time.addEvent({
+            delay: 60000,
+            callback: () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
-            this.gameOver = true;
-        }, null, this);
+            this.gameOver = true;},
+        })
+
+        //disp time left
+        this.timeLeftText = this.add.text(game.config.width - (borderUISize + borderPadding), borderUISize + borderPadding * 2, "Time Left: " + this.gameTimer.getRemainingSeconds(), scoreConfig).setOrigin(1,0);
     }
 
     update(time, delta) {
-
+        // update timer
+        this.timeLeftText.setText("Score Left: " + Phaser.Math.RoundTo(this.gameTimer.getRemainingSeconds(), 0));
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRESET)) {
             this.scene.restart();
