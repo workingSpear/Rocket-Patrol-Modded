@@ -15,7 +15,7 @@ let game = new Phaser.Game(config);
 
 // config vars for scoring
 let onMissTimeReduction = 3000; // in ms
-let onHitTimeIncrease = 1000; // in ms 
+let onHitTimeIncrease = 500; // in ms 
 let missed = false;
 
 //configurable variables that help determine the white border + green bar on the game UI

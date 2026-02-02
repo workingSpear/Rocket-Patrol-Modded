@@ -16,9 +16,10 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
 
         //creates spaceships (x3)
-          this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
-          this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
-          this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+          this.ship01 = new Spaceship(this, game.config.width + borderUISize*9,  borderUISize*5 + borderPadding*2, 'spaceship', 0, 30, game.settings.spaceshipSpeed).setOrigin(0, 0);
+          this.ship02 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*6 + borderPadding*4, 'spaceship', 0, 20, game.settings.spaceshipSpeed).setOrigin(0,0);
+          this.ship03 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*7 + borderPadding*6, 'spaceship', 0, 10, game.settings.spaceshipSpeed).setOrigin(0,0);
+          this.ship04 = new Spaceship(this, game.config.width, borderUISize*4, 'tinyship', 0, 100, game.settings.spaceshipSpeed * 1.5).setOrigin(0,0);
         
         // adds keybindings
         // Arrow Keys for left and right
@@ -86,6 +87,7 @@ class Play extends Phaser.Scene {
             this.ship01.update(delta);
             this.ship02.update(delta);
             this.ship03.update(delta);
+            this.ship04.update(delta);
         }
 
         // check collisions
@@ -104,6 +106,11 @@ class Play extends Phaser.Scene {
             this.modifyTimer(onHitTimeIncrease);
             this.shipExplode(this.ship01);
         }
+        if (this.checkCollision(this.p1Rocket, this.ship04)) {
+            this.p1Rocket.reset();
+            this.modifyTimer(onHitTimeIncrease * 10);
+            this.shipExplode(this.ship04);
+        }
     }
     
     // modify time remaining
@@ -115,7 +122,6 @@ class Play extends Phaser.Scene {
             delay: newDelay,
             callback: oldCallback,
         })
-        console.log(this.gameTimer.getRemaining());
     }
 
     checkCollision(rocket, ship) {
